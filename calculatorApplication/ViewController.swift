@@ -26,7 +26,7 @@ class ViewController: UIViewController {
             view.addSubview($0)
         }
         label.textColor = .white
-        label.text = "12345"
+        label.text = "0"
         label.textAlignment = .right
         label.font = .boldSystemFont(ofSize: 60)
         
@@ -59,6 +59,8 @@ class ViewController: UIViewController {
                 
                 let isOperator = ["+", "-", "*", "/", "=", "AC"].contains(title)
                 button.backgroundColor = isOperator ? .orange : UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+                
+                button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
 
                 
                 button.snp.makeConstraints { $0.width.height.equalTo(80) }
@@ -67,6 +69,30 @@ class ViewController: UIViewController {
             verticalStackView.addArrangedSubview(horizontalStackView)
         }
     }
+    
+    @objc func buttonTapped(_ sender: UIButton) {
+        guard let buttonText = sender.currentTitle else { return }
+        var currentText = label.text ?? "0"
+        
+        if buttonText == "AC" {
+            label.text = "0"
+            return
+        }
+        
+        if currentText == "0" {
+            currentText = buttonText // 첫 숫자가 0이면 교체
+                } else {
+                    currentText += buttonText // 기존 값에 추가
+                }
+                
+                // 맨 앞에 0이 있다면 제거 (단, 0만 있는 경우는 제외)
+        if currentText.count > 1, currentText.hasPrefix("0") {
+            currentText = String(currentText.dropFirst())
+                }
+        
+        label.text = currentText
+    }
+    
     
     func setConstraints() {
         label.snp.makeConstraints {
