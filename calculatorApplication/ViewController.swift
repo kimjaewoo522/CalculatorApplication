@@ -11,7 +11,6 @@ import SnapKit
 class ViewController: UIViewController {
     
     let label = UILabel()
-    let button = UIButton()
     let horizontalStackView = UIStackView()
     let verticalStackView = UIStackView()
     
@@ -23,13 +22,13 @@ class ViewController: UIViewController {
     }
 
     func configureUI() {
-        [label, button, horizontalStackView, verticalStackView].forEach {
+        [label, verticalStackView].forEach {
             view.addSubview($0)
         }
         label.textColor = .white
         label.text = "12345"
         label.textAlignment = .right
-        label.font = UIFont.boldSystemFont(ofSize: 60)
+        label.font = .boldSystemFont(ofSize: 60)
         
         verticalStackView.axis = .vertical
         verticalStackView.backgroundColor = .black
@@ -39,7 +38,7 @@ class ViewController: UIViewController {
         let buttonTitles = [
             ["7", "8", "9", "+"],
             ["4", "5", "6", "-"],
-            ["1", "2", "3", "4"],
+            ["1", "2", "3", "*"],
             ["AC", "0", "=", "/"]
             ]
         
@@ -53,10 +52,14 @@ class ViewController: UIViewController {
             for title in row {
                 let button = UIButton()
                 button.setTitle(title, for: .normal)
-                button.titleLabel?.font = .boldSystemFont(ofSize: 30) // button.font = UIfont.boldsystemFont(ofSize: 30)는 왜안되는지
+                button.titleLabel?.font = .boldSystemFont(ofSize: 30)
                 button.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
                 button.setTitleColor(.white, for: .normal)
                 button.layer.cornerRadius = 40
+                
+                let isOperator = ["+", "-", "*", "/", "=", "AC"].contains(title)
+                button.backgroundColor = isOperator ? .orange : UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+
                 
                 button.snp.makeConstraints { $0.width.height.equalTo(80) }
                 horizontalStackView.addArrangedSubview(button)
@@ -68,7 +71,7 @@ class ViewController: UIViewController {
     func setConstraints() {
         label.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(30)
-            $0.top.equalToSuperview().offset(200)
+            $0.top.equalToSuperview().inset(200)
             $0.height.equalTo(100)
         }
         
