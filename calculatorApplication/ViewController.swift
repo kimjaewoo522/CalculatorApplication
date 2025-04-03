@@ -79,20 +79,36 @@ class ViewController: UIViewController {
             return
         }
         
+        if buttonText == "=" {
+            if let result = calculate(expression: currentText) {
+                label.text = String(result)
+            } else {
+                label.text = "Error"
+            }
+            return
+        }
+        
         if currentText == "0" {
             currentText = buttonText // 첫 숫자가 0이면 교체
                 } else {
                     currentText += buttonText // 기존 값에 추가
-                }
+        }
                 
                 // 맨 앞에 0이 있다면 제거 (단, 0만 있는 경우는 제외)
         if currentText.count > 1, currentText.hasPrefix("0") {
             currentText = String(currentText.dropFirst())
-                }
-        
+        }
         label.text = currentText
     }
-    
+   
+    func calculate(expression: String) -> Int? {
+            let expression = NSExpression(format: expression)
+        if let result = expression.expressionValue(with: nil, context: nil) as? Int {
+            return result
+        } else {
+            return nil
+        }
+    }
     
     func setConstraints() {
         label.snp.makeConstraints {
