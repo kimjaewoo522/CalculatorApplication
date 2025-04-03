@@ -59,9 +59,9 @@ class ViewController: UIViewController {
                 
                 let isOperator = ["+", "-", "*", "/", "=", "AC"].contains(title)
                 button.backgroundColor = isOperator ? .orange : UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+                // 연산 버튼 주황색으로 삼항 연산자로 처리
                 
                 button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-
                 
                 button.snp.makeConstraints { $0.width.height.equalTo(80) }
                 horizontalStackView.addArrangedSubview(button)
